@@ -1,3 +1,7 @@
+# _AWS Cloud Practitioner Essential Course_
+
+# Module 1
+
 ## Cloud computing
 The on-demand delivery of IT Resources over the internet with pay-as-you-go pricing
 
@@ -50,3 +54,48 @@ AWS has different types of compute services beyond just virtual servers like EC2
  You can use **AWS Fargate**, which allows you to run your containers on top of a serverless compute platform. 
 
 Then there is **AWS Lambda**, which allows you to just upload your code and configure it to run based on triggers. You only get charged for when the code is actually running, no containers, no virtual machines, just code and configuration. 
+
+
+# Module 2
+
+## AWS Global Infra an reliability
+
+Goal is to be highly available and Fault tolerant.
+
+### Regions
+**Regions** are geographically isolated areas.
+
+Data never leaves region unless you ask for.
+
+Four factors to choose Region
+1. Compliance
+2. Proximity to user
+3. Feature Availability
+4. Pricing
+
+### Availability Zones (AZ)
+Region contains **Availability Zones(AZ)** _seperated bey 10 of miles from each other_
+
+Choose multiple Availability zones for your app.
+
+Recommendation is to choose multiple EC2s  within a region but in different availability zones.
+
+### Amazon Cloud Front service
+**Edge Locations** run **Amazon Cloud Front** (_Content Delivery Network Cached copy near user_) 
+
+## Provisioning of AWS Resources
+
+Everything is API's in AWS
+
+### Ways to interact
+1. AWS Management console - _UI_
+2. AWS Command Line Interface - _commandline for scripting_
+3. Software development kits (SDKs) - _integration with programs in different programming languages_
+4. Managed tools 
+   1. **AWS Elastic Beanstalk** -you provide code and configuration settings, and Elastic Beanstalk deploys the resources necessary to perform the following tasks 
+      1. Adjust capacity 
+      2. Load balancing 
+      3. Automatic scaling 
+      4. Application health monitoring
+      
+   2. Software development kits (SDKs) - you can treat your infrastructure as code, json based / yaml , acts as input for Cloud formation engine. manages different resources like storage, database, analytics , machine learning etc.

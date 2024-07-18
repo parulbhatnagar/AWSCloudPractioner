@@ -234,8 +234,7 @@ It is a DNS Web service. It gives a reliable way to route internet applications 
 
 ### Amazon Elastic Block Storage (Amazon EBS)
 It is a service that provides block-level storage volumes that you can use with Amazon EC2 instances. If you stop or terminate an Amazon EC2 instance, all the data on the attached EBS volume remains available.
-
-To create an EBS volume, you define the configuration (such as volume size and type) and provision it. After you create an EBS volume, it can attach to an Amazon EC2 instance.
+To create an EBS volume, you define the configuration (such as volume size and type) and provision it. A
 
 Because EBS volumes are for data that needs to persist, it’s important to back up the data. You can take incremental backups of EBS volumes by creating Amazon EBS snapshots.
 
@@ -247,11 +246,139 @@ Incremental backups are different from full backups, in which all the data in a 
 
 
 ### Amazon Simple Storage Service (Amazon S3)
-
 Object Storage, each object consists of data, metadata, and a key. The data might be an image, video, text document, or any other type of file. Metadata contains information about what the data is, how it is used, the object size, and so on. An object’s key is its unique identifier.
 ![img_14.png](src/images/img_14.png)
 
 **Amazon S3** is a service that provides object-level storage. Amazon S3 stores data as objects in buckets.
 Amazon S3 offers unlimited storage space. The maximum file size for an object in Amazon S3 is 5 TB.
-When you upload a file to Amazon S3, you can set permissions to control visibility and access to it. You can also use the Amazon S3 versioning feature to track changes to your objects over time.
+When you upload a file to Amazon S3, you can set permissions to control visibility and access to it. 
+You can also use the Amazon S3 versioning feature to track changes to your objects over time.
+
+#### Different Amazon S3 storage classes 
+Consider these factors to decide which class to go for
+* How often you plan to retrieve your data
+* How available you need your data to be
+
+1. **Amazon S3 Standard**
+   * Designed for frequent accessed data
+   * Stores data in minimum three Availability Zones
+   * Higher cost then other types of data storage
+   * Use case - Websites, content distribution and data analytics
+
+2. **Amazon S3 Standard-Infrequent Access (S3 Standard-IA)**
+   * Ideal for infrequent accessed data
+   * Similar to **amazon S3 standard** but has **lower storage price and higher retrieval price**.
+   * Minimum of three availability zones
+
+3. **Amazon S3 One Zone-Infrequent Access (S3 One Zone-IA)**
+   * Stores data in single Availability zone
+   * Lower price then Standard IA making a less costlier option bu in case of AZ failure you should be able to reproduce data
+   
+4. **Amazon S3 Intelligent-Tiering**
+   * Ideal for data with unknown or changing access patterns 
+   * Requires a small monthly monitoring and automation fee per object
+   * Moves data to different storage classes depending on the access/usage
+
+5. Amazon S3 Glacier Instant Retrieval
+   * Works well for archived data that requires immediate access 
+   * Can retrieve objects within a few milliseconds (Similar to Amazon S3 Standard)
+
+6. Amazon S3 Glacier Flexible Retrieval
+   * Low-cost storage designed for data archiving 
+   * Able to retrieve objects within a few minutes to hours
+   * Use case - storage class to store archived customer records or older photos and video files.
+
+7. Amazon S3 Glacier Deep Archive
+   * Lowest-cost object storage class ideal for archiving 
+   * Able to retrieve objects within 12 - 48 hours
+   * All objects from this storage class are replicated and stored across at least three geographically dispersed Availability Zones.
+
+8. Amazon S3 Outposts
+   * Creates S3 buckets on Amazon S3 Outposts 
+   * Makes it easier to retrieve, store, and access data on AWS Outposts
+   * It works well for workloads with local data residency requirements that must satisfy demanding performance needs by keeping data close to on-premises applications.
+
+
+### Elastic Block Store Vs Amazon S3
+
+| Amazon Elastic Block Store                 | Amazon S3                                                                    |
+|--------------------------------------------|------------------------------------------------------------------------------|
+| Sizes up to 16 Tib                         | Unlimited storage, individual objects upto 5 TBs                             |
+| Survives termination of their EC2 instance | write once reads many (WORM)                                                 |
+| Solid State drives by default              | 99.99999999 % durability                                                     |
+| HDD options                                |                                                                              |
+| Delta update (use case of video edit)      | Write ones reads many, writing complete objects and retrieving multiple time |
+|                                            | Web enabled (multiple pictures to be indexed or unsupervised data)           |
+
+
+### Amazon Elastic File System (EFS)
+* Managed file system(_historically on prem like AFS/NFS_)
+* Allows multiple instances access data in EFS at same time
+* Scaling is taken care on its own
+
+**Difference between Amazon EBS and Amazon Elastic File System (EFS)**
+* EBS - Attached to EC2 instance and present in same AZ. There is no auto-scaling
+* EFS - Multiple instances can read and write simultaneously, Its a linux file system and a Regional resource (can be at multiple AZsZ) and it scales automatically.
+
+## Relational Databases
+In a relational database, data is stored in a way that relates it to other pieces of data. 
+
+On Prem DBs can be moved to cloud on Amazon EC2, using database migration service.
+
+Managed Database service - **Amazon RDS**
+
+### Amazon RDS 
+* It is a managed service that automates tasks such as hardware provisioning, database setup, patching,
+* You can integrate Amazon RDS with other services to fulfill your business and operational needs, such as using AWS Lambda to query your database from a serverless application.
+
+### Amazon RDS database engines
+Amazon RDS is available on six database engines, which optimize for memory, performance, or input/output (I/O). Supported database engines include:
+1. Amazon Aurora
+2. PostgreSQL
+3. MySQL
+4. MariaDB
+5. Oracle Database
+6. Microsoft SQL Server
+
+### Amazon Aurora
+It is an enterprise-class relational database. It is compatible with MySQL and PostgreSQL relational databases. It is up to five times faster than standard MySQL databases and up to three times faster than standard PostgreSQL databases.
+
+
+### Amazon DynamoDB
+* It is a Non-relational Databases
+* Key Value database
+
+**Serverless**
+DynamoDB is serverless, which means that you do not have to provision, patch, or manage servers.
+You also do not have to install, maintain, or operate software.
+
+**Automatic Scaling**
+* As the size of your database shrinks or grows, DynamoDB automatically scales to adjust for changes in capacity while maintaining consistent performance.
+* This makes it a suitable choice for use cases that require high performance while scaling.
+
+
+### Amazon Redshift
+It is a data warehousing service that you can use for big data analytics. It offers the ability to collect data from many sources and helps you to understand relationships and trends across your data.
+
+### Amazon Database migration service (AWS DMS)
+* Enables you to migrate relational databases, nonrelational databases, and other types of data stores.
+
+
+With AWS DMS, you move data between a source database and a target database.The source and target databases can be of the same type or different types. During the migration, your source database remains operational, reducing downtime for any applications that rely on the database.
+
+For example, suppose that you have a MySQL database that is stored on premises in an Amazon EC2 instance or in Amazon RDS. Consider the MySQL database to be your source database. Using AWS DMS, you could migrate your data to a target database, such as an Amazon Aurora database.
+
+**Other use cases for AWS DMS**
+**Development and test database migrations**
+
+Enabling developers to test applications against production data without affecting production users
+
+**Database consolidation**
+
+Combining several databases into a single database
+
+**Continuous replication**
+
+Sending ongoing copies of your data to other target sources instead of doing a one-time migration
+
 

@@ -411,5 +411,166 @@ Amazon DynamoDB Accelerator (DAX)is an in-memory cache for DynamoDB.
 It helps improve response times from single-digit milliseconds to microseconds.
 
 
+# Security
 
 
+## The AWS Shared Responsibility Model
+
+The shared responsibility model divides into customer responsibilities (commonly referred to as “security in the cloud”) and AWS responsibilities (commonly referred to as “security of the cloud”).
+![img.png](src/images/SharedResponsibilityModel.png)
+
+
+
+## User Permissions
+
+
+
+### AWS Identity and Access Management system (AWS IAM)
+
+IAM gives you the flexibility to configure access based on your company’s specific operational and security needs. You do this by using a combination of IAM features, which are explored in detail in this lesson:
+* IAM users, groups, and roles
+* IAM policies
+* Multi-factor authentication
+
+
+#### Root user
+Root account user - Owner account, could access and control any resource on the account, (Multi factor authentication should be enabled)
+![img.png](src/images/RootUser.png)
+
+#### IAM users
+An IAM user is an identity that you create in AWS. It represents the person or application that interacts with AWS services and resources. It consists of a name and credentials.
+By default, IAM user has no permission, all actions are denied. 
+
+Follows **principle of the least privilege** "A user is granted access only to what they need"
+
+#### IAM policies
+An IAM policy is a document that allows or denies permissions to AWS services and resources.
+
+IAM policies enable you to customize users’ levels of access to resources. For example, you can allow users to access all of the Amazon S3 buckets within your AWS account, or only a specific bucket.
+**Example: IAM policy**
+
+Here’s an example of how IAM policies work. Suppose that the coffee shop owner has to create an IAM user for a newly hired cashier. The cashier needs access to the receipts kept in an Amazon S3 bucket with the ID: AWSDOC-EXAMPLE-BUCKET
+![img.png](src/images/IAMPolicy.png)
+
+#### IAM Groups
+An IAM group is a collection of IAM users. When you assign an IAM policy to a group, all users in the group are granted permissions specified by the policy.
+
+#### IAM Roles
+An IAM role is an identity that you can assume to gain temporary access to permissions.  
+
+
+### AWS Organizations
+Suppose that your company has multiple AWS accounts. You can use
+AWS Organizations to consolidate and manage multiple AWS accounts within a central location.
+
+When you create an organization, AWS Organizations automatically creates a root, which is the parent container for all the accounts in your organization.
+
+In AWS Organizations, you can centrally control permissions for the accounts in your organization by using **service control policies (SCPs)**. SCPs enable you to place restrictions on the AWS services, resources, and individual API actions that users and roles in each account can access.
+
+Consolidated billing is another feature of AWS Organizations. You will learn about consolidated billing in a later module.
+
+### Organizational Units
+In AWS Organizations, you can group accounts into organizational units (OUs) to make it easier to manage accounts with similar business or security requirements. When you apply a policy to an OU, all the accounts in the OU automatically inherit the permissions specified in the policy.  
+
+
+## Compliance
+
+### AWS Artifact
+It is a service that provides on-demand access to AWS security and compliance reports and select online agreements.
+
+### AWS Artifact Agreement
+Suppose that your company needs to sign an agreement with AWS regarding your use of certain types of information throughout AWS services. You can do this through **AWS Artifact Agreements**. 
+
+### AWS Artifact Reports
+Next, suppose that a member of your company’s development team is building an application and needs more information about their responsibility for complying with certain regulatory standards. You can advise them to access this information in **AWS Artifact Reports**
+
+## Denial of Service
+DOS - Denial of service
+DDOS - Distributed Denial of service
+Customers can call the coffee shop to place their orders. After answering each call, a cashier takes the order and gives it to the barista.
+
+However, suppose that a prankster is calling in multiple times to place orders but is never picking up their drinks. This causes the cashier to be unavailable to take other customers’ calls. The coffee shop can attempt to stop the false requests by blocking the phone number that the prankster is using.
+
+In this scenario, the prankster’s actions are similar to a denial-of-service attack.
+
+### Denial-of-Service Attacks
+A denial-of-service (DoS) attack is a deliberate attempt to make a website or application unavailable to users.
+![img.png](src/images/DOS.png)
+
+For example, an attacker might flood a website or application with excessive network traffic until the targeted website or application becomes overloaded and is no longer able to respond. If the website or application becomes unavailable, this denies service to users who are trying to make legitimate requests.
+
+### Distributed Denial-of-Service Attacks
+Now, suppose that the prankster has enlisted the help of friends.
+
+The prankster and their friends repeatedly call the coffee shop with requests to place orders, even though they do not intend to pick them up. These requests are coming in from different phone numbers, and it’s impossible for the coffee shop to block them all. Additionally, the influx of calls has made it increasingly difficult for customers to be able to get their calls through. This is similar to a distributed denial-of-service attack.
+![img.png](src/images/DDOS.png)
+
+
+In a distributed denial-of-service (DDoS) attack, multiple sources are used to start an attack that aims to make a website or application unavailable. This can come from a group of attackers, or even a single attacker. The single attacker can use multiple infected computers (also known as “bots”) to send excessive traffic to a website or application.
+
+To help minimize the effect of DoS and DDoS attacks on your applications, you can use AWS Shield
+.
+
+### AWS Shield
+AWS Shield is a service that protects applications against DDoS attacks. AWS Shield provides two levels of protection: Standard and Advanced.
+
+#### AWS Shield Standard
+AWS Shield Standard automatically protects all AWS customers at no cost. It protects your AWS resources from the most common, frequently occurring types of DDoS attack.
+
+As network traffic comes into your applications, AWS Shield Standard uses a variety of analysis techniques to detect malicious traffic in real time and automatically mitigates it.
+
+#### AWS Shield Advanced
+AWS Shield Advanced is a paid service that provides detailed attack diagnostics and the ability to detect and mitigate sophisticated DDoS attacks.
+
+It also integrates with other services such as Amazon CloudFront, Amazon Route 53, and Elastic Load Balancing. Additionally, you can integrate AWS Shield with **AWS WAF** by writing custom rules to mitigate complex DDoS attacks.
+
+### AWS Key Management Service (AWS KMS)
+you must ensure that your applications’ data is secure while in storage (encryption at rest) and while it is transmitted, known as encryption in transit.
+This enables you to perform encryption operations through the use of cryptographic keys. A cryptographic key is a random string of digits used for locking (encrypting) and unlocking (decrypting) data. You can use AWS KMS to create, manage, and use cryptographic keys. You can also control the use of keys across a wide range of services and in your applications.
+
+### AWS WAF
+AWS WAF is a web application firewall that lets you monitor network requests that come into your web applications.
+it does this by using a **web access control list (ACL)** to protect your AWS resources. 
+
+### Amazon Inspector
+Amazon Inspector helps to improve the security and compliance of applications by running automated security assessments. It checks applications for security vulnerabilities and deviations from security best practices, such as open access to Amazon EC2 instances and installations of vulnerable software versions. 
+
+### Amazon GuardDuty
+Amazon GuardDuty is a service that provides intelligent threat detection for your AWS infrastructure and resources. It identifies threats by continuously monitoring the network activity and account behavior within your AWS environment.
+
+
+
+# Monitoring and Analytics
+
+Monitoring  of different matrices, different service hep us capture this
+
+**Amazon Cloud Watch** - alarms / custom matrix / Dashboard
+
+Benefits:
+1. Access to all your matrices from central location
+2. Gain visibility of your application infrastructure and services
+3. Reduce MTTR and improve TCO.
+4. Drive insights to optimize  applications and operation resources.
+
+**AWS Cloud Trail** - Comprehensive API auditing tool
+
+Cloud trail engine records all te details like who made request, from where, what was the response time, what was the state. 
+
+**CloudTrail Insights** This optional feature allows CloudTrail to automatically detect unusual API activities in your AWS account. 
+
+
+**AWS Trusted Advisor**
+It is a web service that inspects your AWS environment and provides real-time recommendations in accordance with AWS best practices.
+
+Five Pillars for optimization of AWS account
+* Cost optimization
+* Performance
+* Security
+* Fault Tolerance
+* Service Limit
+
+
+# Pricing and support
+
+
+                                    

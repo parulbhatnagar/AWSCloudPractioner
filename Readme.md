@@ -9,14 +9,16 @@ The on-demand delivery of IT Resources over the internet with pay-as-you-go pric
 ## Different Service
 
 ### Amazon Elastic Compute Cloud (Amazon EC2)
-Virtual servers called EC2 instance
+Virtual servers called EC2 instance, hypervisor running over a machine do the virtualization, and multiple tenancy model is followed. multiple instances running on a single machine are not aware of each other and they share resources without conflict.
+
+Amazon EC2 is CaaS _(Compute as a Service)_
 
 #### Amazon EC2 instance families
-1. General Purpose
-2. Compute optimized
-3. Memory optimized
-4. Accelerated computing
-5. Storage optimized
+1. General Purpose - _balanced resources, use cases - web services, code repos_
+2. Compute optimized - _Compute intensive tasks like gaming servers, High performing tasks, scientific modeling_
+3. Memory optimized - _memory intensive tasks_
+4. Accelerated computing - _Floating point number claculations, graphinc processing, data pattern matching, they utilize hardware accelerators_
+5. Storage optimized - _fast local storage_
 
 
 #### Scaling and Availability service
@@ -45,6 +47,7 @@ EC2 can be scaled horizontally by launching new pool
 #### types of compute services
 
 AWS has different types of compute services beyond just virtual servers like EC2, container orchestration tools, You can use these tools with EC2 instances
+
 **Amazon Elastic Container Service or ECS**
 
 **Amazon Elastic Kubernetes Service or EKS**
@@ -53,7 +56,16 @@ AWS has different types of compute services beyond just virtual servers like EC2
 **Serverless computing**
  You can use **AWS Fargate**, which allows you to run your containers on top of a serverless compute platform. 
 
-Then there is **AWS Lambda**, which allows you to just upload your code and configure it to run based on triggers. You only get charged for when the code is actually running, no containers, no virtual machines, just code and configuration. 
+Then there is **AWS Lambda**, which allows you to just upload your code and configure it to run based on triggers. You only get charged for when the code is actually running, no containers, no virtual machines, just code and configuration.
+
+
+**Summary of different Compute services**
+
+Host traditional applications + Full access to the OS -> **Use Amazon EC2**
+
+Host short running functions + Service oriented applications + Event driven applications + no provisioning and managing servers -> serverless **AWS Lambda**
+
+Run Container based workload on AWS -> Chose either **Amazon ECS or Amazon EKS** -> **Amazon ECS2** managed by you or **AWS Fargate** managed for you
 
 
 # Module 2
@@ -67,21 +79,28 @@ Goal is to be highly available and Fault tolerant.
 
 Data never leaves region unless you ask for.
 
-Four factors to choose Region
+Four key business factors for choosing **Region**
 1. Compliance
 2. Proximity to user
 3. Feature Availability
 4. Pricing
 
 ### Availability Zones (AZ)
-Region contains **Availability Zones(AZ)** _seperated bey 10 of miles from each other_
+Region contains **Availability Zones(AZ)** _seperated by 10s of miles from each other_
 
 Choose multiple Availability zones for your app.
 
 Recommendation is to choose multiple EC2s  within a region but in different availability zones.
 
 ### Amazon Cloud Front service
-**Edge Locations** run **Amazon Cloud Front** (_Content Delivery Network Cached copy near user_) 
+A global content delivery service. **Edge Locations** run **Amazon Cloud Front** (_Content Delivery Network Cached copy near user_) 
+
+### Key Points
+* Regions are geographically isolated areas.
+* Region contains multiple  availability zones 
+* Edge location (_cache / CDN / DSN_) near customer
+* AWS Outposts - Extebds AWS infa and services to your on-prem
+
 
 ## Provisioning of AWS Resources
 
@@ -98,7 +117,7 @@ Everything is API's in AWS
       3. Automatic scaling 
       4. Application health monitoring
       
-   2. Software development kits (SDKs) - you can treat your infrastructure as code, json based / yaml , acts as input for Cloud formation engine. manages different resources like storage, database, analytics , machine learning etc.
+   2. **AWS Cloud Formation** - you can treat your infrastructure as code, json based / yaml , acts as input for Cloud formation engine. manages different resources like storage, database, analytics , machine learning etc.
 
 
 # Module 3
@@ -228,6 +247,17 @@ It is a DNS Web service. It gives a reliable way to route internet applications 
 ![img_12.png](src/images/img_12.png)
 
 
+### Summary
+* The way you isolate you workload in AWS  -> **Amazon Virtual Private Cloud**
+* **Security** -Gateways, Network ACLs and security groups
+  * Gateways:
+    * Internet Gateway(_allow all in_)
+    * Virtual Private Gateway (_Only customer allowed but still uses same network bandwidth_)
+  * Network  ACL's - subnet is the boundary. Stateless and by default allow inbound and outbound traffic
+  * Security Groups - for multiple instances with in subnet, Stateful and by default deny all inbound traffic, no check on outbound
+* **Connection** - VPN and AWS Direct connect
+* **Global Networks** using Edge location, AWS Route 53 for DNS and AWS Cloud Front to cache content closer to user
+
 # Module 4
 
 ## Storage and Databases
@@ -246,7 +276,16 @@ Incremental backups are different from full backups, in which all the data in a 
 
 
 ### Amazon Simple Storage Service (Amazon S3)
-Object Storage, each object consists of data, metadata, and a key. The data might be an image, video, text document, or any other type of file. Metadata contains information about what the data is, how it is used, the object size, and so on. An object’s key is its unique identifier.
+Object Storage, each object consists of data, metadata, and a key. 
+The data might be an image, video, text document, or any other type of file. 
+Metadata contains information about what the data is, how it is used, the object size, and so on.
+* Store data as objects 
+* Store objects in buckets
+* Max object size is 5TB
+* version objects
+* create multiple buckets
+
+
 ![img_14.png](src/images/img_14.png)
 
 **Amazon S3** is a service that provides object-level storage. Amazon S3 stores data as objects in buckets.
@@ -279,21 +318,21 @@ Consider these factors to decide which class to go for
    * Requires a small monthly monitoring and automation fee per object
    * Moves data to different storage classes depending on the access/usage
 
-5. Amazon S3 Glacier Instant Retrieval
+5. **Amazon S3 Glacier Instant Retrieval**
    * Works well for archived data that requires immediate access 
    * Can retrieve objects within a few milliseconds (Similar to Amazon S3 Standard)
 
-6. Amazon S3 Glacier Flexible Retrieval
+6. **Amazon S3 Glacier Flexible Retrieval**
    * Low-cost storage designed for data archiving 
    * Able to retrieve objects within a few minutes to hours
    * Use case - storage class to store archived customer records or older photos and video files.
 
-7. Amazon S3 Glacier Deep Archive
+7. **Amazon S3 Glacier Deep Archive**
    * Lowest-cost object storage class ideal for archiving 
    * Able to retrieve objects within 12 - 48 hours
    * All objects from this storage class are replicated and stored across at least three geographically dispersed Availability Zones.
 
-8. Amazon S3 Outposts
+8. **Amazon S3 Outposts**
    * Creates S3 buckets on Amazon S3 Outposts 
    * Makes it easier to retrieve, store, and access data on AWS Outposts
    * It works well for workloads with local data residency requirements that must satisfy demanding performance needs by keeping data close to on-premises applications.
@@ -539,6 +578,26 @@ Amazon Inspector helps to improve the security and compliance of applications by
 Amazon GuardDuty is a service that provides intelligent threat detection for your AWS infrastructure and resources. It identifies threats by continuously monitoring the network activity and account behavior within your AWS environment.
 
 
+### Summary
+* We follow shared security model
+  * AWS responsible for Security "of" the cloud
+  * Customer is responsible for security "in" the cloud
+* AWS IAM
+  * Users - default no permissions
+  * groups - group of users
+  * roles - temp access roles for specified time duration
+  * Policies
+  * Identification federation
+  * For root user make sure you have MFA - Multi-factor authentication
+* AWS Organization - helps manage multiple accounts in hierarchical fashion
+* Compliance - third party audits - more info on AWS Compliance portal or AWS Artifacts
+* DDos Attacks - combat them with AWS using tools like Elastic Load Balancer, security groups, AWS Shield, and AWS WAF
+* Encryption 
+  * at rest
+  * transit
+
+
+
 
 # Monitoring and Analytics
 
@@ -573,4 +632,49 @@ Five Pillars for optimization of AWS account
 # Pricing and support
 
 
+# Migration Strategy
+
+**AWS Cloud Adoption Framework** -> AWS Cloud Framework action plan from input from all the stakeholders
+
+Migration Strategy with 6 Rs
+* **Rehosting** - “lift-and-shift” involves moving applications without changes.
+* **Replatforming** -  “lift, tinker, and shift,” involves making a few cloud optimizations to realize a tangible benefit. Optimization is achieved without changing the core architecture of the application.
+* **Refactoring/re-architecting** - involves reimagining how an application is architected and developed by using cloud-native features. Refactoring is driven by a strong business need to add features, scale, or performance that would otherwise be difficult to achieve in the application’s existing environment.
+* **Repurchasing**  - involves moving from a traditional license to a software-as-a-service model.
+* **Retaining** - consists of keeping applications that are critical for the business in the source environment. This might include applications that require major refactoring before they can be migrated, or, work that can be postponed until a later time.
+* **Retiring** -  process of removing applications that are no longer needed.
+
+
+
+**AWS Snow Family**
+The **AWS Snow Family** is a collection of physical devices that help to physically transport up to exabytes of data into and out of AWS. 
+![img.png](SnowFamily.png)
                                     
+
+# Cloud Journey
+
+## AWS Well Architected Framework 
+
+Six pillars:
+* Operation excellence
+* Security
+* Reliability
+* Performance Efficiency 
+* Cost Optimization
+* Sustainability
+
+**AWS Well architected pool** service 
+
+
+## Benefits of the AWS Cloud
+Operating in the AWS Cloud offers many benefits over computing in on-premises or hybrid environments.
+
+In this section, you will learn about six advantages of cloud computing:
+
+* Trade upfront expense for variable expense.
+* Benefit from massive economies of scale.
+* Stop guessing capacity.
+* Increase speed and agility.
+* Stop spending money running and maintaining data centers.
+* Go global in minutes.
+
